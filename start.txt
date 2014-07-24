@@ -1,18 +1,4 @@
-HUBOT_IRC_SERVER=irc.freenode.net \
-  HUBOT_IRC_ROOMS="#raincrossdermatology" \
-  HUBOT_IRC_NICK="snoop" \
-  HUBOT_IRC_UNFLOOD="true" \
-  bin/hubot -a irc --name snoop
-
-
-
-
-HUBOT_GTALK_USERNAME="raincrossdermatology1@gmail.com" \
-HUBOT_GTALK_PASSWORD="3NkT74KrFPIGoRc" \
-bin/hubot --name snoop
-
-
-HUBOT_SLACK_TOKEN=wUgrL1TvcmwYarQw6ARNVVmn \
-HUBOT_SLACK_TEAM=0h \
+HUBOT_SLACK_TOKEN=Jpf6kAGedFS6pps9CXrBLzar \
+HUBOT_SLACK_TEAM=riversideio \
 HUBOT_SLACK_BOTNAME=slackbot \
 bin/hubot --adapter slack
