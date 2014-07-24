@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Hubot
 
 This is a version of GitHub's Campfire bot, hubot. He's pretty cool.
@@ -155,3 +156,9 @@ Add the subdomain hubot should connect to. If you web URL looks like
 
 You may want to get comfortable with `heroku logs` and `heroku restart`
 if you're having issues.
+=======
+iobot
+=====
+
+Hubot for Riverside.io co-twerking space
+>>>>>>> 6fe4e2644a129b454390b6cb30290f1a4293c63b
