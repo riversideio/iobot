@@ -39,12 +39,6 @@ imageMe = (msg, query, animated, faces, cb) ->
       images = JSON.parse(body)
       images = images.responseData?.results
       if images?.length > 0
-        image = msg.random images
-        cb ensureImageExtension image.unescapedUrl
+        image  = msg.random images
+        cb "#{image.unescapedUrl}#.png"
 
-ensureImageExtension = (url) ->
-  ext = url.split('.').pop()
-  if /(png|jpe?g|gif)/i.test(ext)
-    url
-  else
-    "#{url}#.png"
