@@ -1,4 +1,0 @@
-HUBOT_SLACK_TOKEN=Jpf6kAGedFS6pps9CXrBLzar \
-HUBOT_SLACK_TEAM=riversideio \
-HUBOT_SLACK_BOTNAME=slackbot \
-bin/hubot --adapter slack
