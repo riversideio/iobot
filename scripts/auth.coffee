@@ -57,7 +57,7 @@ module.exports = (robot) ->
   robot.auth = new Auth
 
   robot.respond /who am i\?*$/i, (msg) ->
-    msg.reply 'you are ' + msg.message.user.id.toString() + ' to me at least.'
+    msg.reply 'you are ' + msg.message.user.name.toString() + ' to me at least.'
 
   robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
@@ -75,7 +75,7 @@ module.exports = (robot) ->
           msg.reply "Sorry, the 'admin' role can only be defined in the HUBOT_AUTH_ADMIN env variable."
         else
           myRoles = msg.message.user.roles or []
-          if msg.message.user.id.toString() in admins
+          if msg.message.user.name.toString() in admins
             user.roles.push(newRole)
             msg.reply "Ok, #{name} has the '#{newRole}' role."
 
