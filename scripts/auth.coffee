@@ -56,8 +56,8 @@ module.exports = (robot) ->
 
   robot.auth = new Auth
 
-  robot.respond /who am i\?/, (msg) ->
-    msg.reply 'you are ' + msg.message.user.id.toString() + 'to me at least.'
+  robot.respond /who am i\?*$/i, (msg) ->
+    msg.reply 'you are ' + msg.message.user.id.toString() + ' to me at least.'
 
   robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
