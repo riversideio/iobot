@@ -21,7 +21,8 @@ changeTemperatureBy = (byF, msg) ->
   nest.fetchStatus (data) ->
     byC = (5/9) * (byF - 32)
     current_temp = data.shared[options.nest_id].target_temperature
-    new_temp = current_temp + byC
+	msg.send "The current temp is " + current_temp
+    new_temp = current_temp + byCHEAD
     msg.send "Nest temperature set to " + nest.ctof(new_temp) + ' degrees.'
     nest.setTemperature options.nest_id, new_temp
 
