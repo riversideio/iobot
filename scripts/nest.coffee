@@ -20,9 +20,10 @@ nest = require('nesting')
 
 # Be sure to set the following environment variables
 options =
-  login:    process.env.NEST_LOGIN
-  password: process.env.NEST_PASSWORD
-  nest_id:  process.env.NEST_ID
+	login:    process.env.nest_LOGIN
+	password: process.env.nest_PASSWORD
+	nest_id:  process.env.nest_ID
+
 
 
 changeTemperatureBy = (byF, msg) ->
@@ -72,4 +73,3 @@ module.exports = (robot) ->
       nest.fetchStatus (data) ->
         current_target = data.shared[options.nest_id].target_temperature
         res.end "{\"current_temperature\": \"" + nest.ctof(current_target) + "\"}"
-    
