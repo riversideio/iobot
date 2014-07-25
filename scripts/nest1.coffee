@@ -13,9 +13,9 @@ nest = require('nesting')
 # Be sure to set the following environment variables
 
 options =
-	login:    process.env.NEST_LOGIN
-	password: process.env.NEST_PASSWORD
-	nest_id:  process.env.NEST_ID
+	login:    process.env.nest_LOGIN
+	password: process.env.nest_PASSWORD
+	nest_id:  process.env.nest_ID
 
 changeTemperatureBy = (byF, msg) ->
 	nest.fetchStatus (data) ->
@@ -26,28 +26,34 @@ changeTemperatureBy = (byF, msg) ->
 		nest.setTemperature options.nest_id, new_temp
 
 module.exports = (robot) ->
-	robot.respond /Nest (temp|temperature)/i, (msg) ->
+	robot.respond /nest (temp|temperature)/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			nest.fetchStatus (data) ->
 				current_temp = data.shared[options.nest_id].current_temperature
 				msg.send "Nest says it's " + nest.ctof(current_temp) + " degrees."
 
 
-	robot.respond /Nest (temp|temperature|\+) 1/i, (msg) ->
+	robot.respond /nest (temp|temperature|\+) 1/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			changeTemperatureBy 1, msg
 
-	robot.respond /Nest (temp|temperature|\+) 2/i, (msg) ->
+	robot.respond /nest (temp|temperature|\+) 2/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			changeTemperatureBy 2, msg
 
-	robot.respond /Nest (temp|temperature|\-) 1/i, (msg) ->
+	robot.respond /nest (temp|temperature|\-) 1/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			changeTemperatureBy -1, msg
 
-	robot.respond /Nest (temp|temperature|\-) 2/i, (msg) ->
+	robot.respond /nest (temp|temperature|\-) 2/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			changeTemperatureBy -2, msg
+
+	robot.respond /nest (test)/i, (msg) ->
+		nest.login options.login, options.password, (data) ->
+			msg.send(data)
+
+
 
 	robot.respond /it's(.*) (hot|warm)/i, (msg) ->
 		msg.send("I'll take care of it...")
