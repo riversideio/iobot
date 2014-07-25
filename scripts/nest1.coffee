@@ -40,19 +40,15 @@ module.exports = (robot) ->
 				msg.send "Nest says it's " + nest.ctof(current_temp) + "degrees."
 
 
-	robot.respond /nest| (temp|set|temperature) (\d{2}).*/i, (msg) ->
+	robot.respond /nest (temp|set) (\d{2}).*/i, (msg) ->
 	    nest.login options.login, options.password, (data) ->
 	      changeTemperatureTo msg.match[2], msg
 
-	robot.respond /nest (temp|set|put|patch|temperature) (\d{2}).*/i, (msg) ->
-			nest.login options.login, options.password, (data) ->
-				changeTemperatureTo msg.match[2], msg
-
-	robot.respond /nest (lower|down|cool) by (\d{2}).*/i, (msg) ->
+	robot.respond /nest (lower|cool) by (\d{2}).*/i, (msg) ->
 			nest.login options.login, options.password, (data) ->
 				changeTemperatureBy -(msg.match[3]), msg
 
-	robot.respond /nest (raise|up|heat) by (\d{2}).*/i, (msg) ->
+	robot.respond /nest (raise|heat) by (\d{2}).*/i, (msg) ->
 			nest.login options.login, options.password, (data) ->
 				changeTemperatureBy msg.match[3], msg
 
@@ -72,10 +68,6 @@ module.exports = (robot) ->
 	# robot.respond /nest (temp|temperature|\-) 2/i, (msg) ->
 	# 	nest.login options.login, options.password, (data) ->
 	# 		changeTemperatureBy -2, msg
-
-	robot.respond /nest (test)/i, (msg) ->
-		nest.login options.login, options.password, (data) ->
-			msg.send(data)
 
 
 
