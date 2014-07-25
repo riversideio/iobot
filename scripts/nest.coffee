@@ -34,11 +34,12 @@ changeTemperatureBy = (byF, msg) ->
     msg.send "I've set the nest to " + nest.ctof(new_temp) + 'ºF for you.'
     nest.setTemperature options.nest_id, new_temp
 
-changeTemperatureTo = (toF, msg) ->
+changeTemperatureTo = (byF, msg) ->
   nest.fetchStatus (data) ->
-    toC = nest.ftoc(toF)
+    byC = (5/9) * byF
+    new_temp = current_temp + byC
     msg.send "I've set the nest to " + nest.ctof(toC) + 'ºF for you.'
-    nest.setTemperature options.nest_id, toC
+    nest.setTemperature options.nest_id, new_temp
 
 
 module.exports = (robot) ->
@@ -56,7 +57,7 @@ module.exports = (robot) ->
   robot.hear /it'?s(.*) cold|nest (up|warmer)/i, (msg) ->
     msg.send("Increasing the temperature...")
     nest.login options.login, options.password, (data) ->
-      changeTemperatureBy +1, msg
+      changeTemperatureBy 1, msg
 
   robot.respond /(nest|n) set (\d{2}).*/i, (msg) ->
     nest.login options.login, options.password, (data) ->
