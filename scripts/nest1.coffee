@@ -22,32 +22,56 @@ changeTemperatureBy = (byF, msg) ->
 		byC = (5/9) * byF
 		current_temp = data.shared[options.nest_id].target_temperature
 		new_temp = current_temp + byC
-		msg.send "Nest temperature has been set to " + nest.ctof(new_temp) + ' degrees.'
+		msg.send "Nest temperature has been set to " + nest.ctof(new_temp) + 'degrees.'
 		nest.setTemperature options.nest_id, new_temp
 
+changeTemperatureTo = (toF, msg) ->
+  nest.fetchStatus (data) ->
+    toC = nest.ftoc(toF)
+    msg.send "Nest temperature has been set to " + nest.ctof(toC) + 'degrees.'
+    nest.setTemperature options.nest_id, toC
+
+
 module.exports = (robot) ->
-	robot.respond /nest (temp|temperature)/i, (msg) ->
+	robot.respond /nest (temp|get|temperature)/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			nest.fetchStatus (data) ->
 				current_temp = data.shared[options.nest_id].current_temperature
-				msg.send "Nest says it's " + nest.ctof(current_temp) + " degrees."
+				msg.send "Nest says it's " + nest.ctof(current_temp) + "degrees."
 
 
-	robot.respond /nest (temp|temperature|\+) 1/i, (msg) ->
-		nest.login options.login, options.password, (data) ->
-			changeTemperatureBy 1, msg
+	robot.respond /nest| (temp|set|temperature) (\d{2}).*/i, (msg) ->
+	    nest.login options.login, options.password, (data) ->
+	      changeTemperatureTo msg.match[2], msg
 
-	robot.respond /nest (temp|temperature|\+) 2/i, (msg) ->
-		nest.login options.login, options.password, (data) ->
-			changeTemperatureBy 2, msg
+	robot.respond /nest (temp|set|put|patch|temperature) (\d{2}).*/i, (msg) ->
+			nest.login options.login, options.password, (data) ->
+				changeTemperatureTo msg.match[2], msg
 
-	robot.respond /nest (temp|temperature|\-) 1/i, (msg) ->
-		nest.login options.login, options.password, (data) ->
-			changeTemperatureBy -1, msg
+	robot.respond /nest (lower|down|cool) by (\d{2}).*/i, (msg) ->
+			nest.login options.login, options.password, (data) ->
+				changeTemperatureBy -(msg.match[3]), msg
 
-	robot.respond /nest (temp|temperature|\-) 2/i, (msg) ->
-		nest.login options.login, options.password, (data) ->
-			changeTemperatureBy -2, msg
+	robot.respond /nest (raise|up|heat) by (\d{2}).*/i, (msg) ->
+			nest.login options.login, options.password, (data) ->
+				changeTemperatureBy msg.match[3], msg
+
+	#
+	# robot.respond /nest (temp|temperature|\+) 1/i, (msg) ->
+	# 	nest.login options.login, options.password, (data) ->
+	# 		changeTemperatureBy 1, msg
+	#
+	# robot.respond /nest (temp|temperature|\+) 2/i, (msg) ->
+	# 	nest.login options.login, options.password, (data) ->
+	# 		changeTemperatureBy 2, msg
+	#
+	# robot.respond /nest (temp|temperature|\-) 1/i, (msg) ->
+	# 	nest.login options.login, options.password, (data) ->
+	# 		changeTemperatureBy -1, msg
+	#
+	# robot.respond /nest (temp|temperature|\-) 2/i, (msg) ->
+	# 	nest.login options.login, options.password, (data) ->
+	# 		changeTemperatureBy -2, msg
 
 	robot.respond /nest (test)/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
