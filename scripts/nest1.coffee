@@ -1,11 +1,11 @@
 # Description:
-#	 Control your nest thermostat.
+#   Control your nest thermostat.
 #
 # Commands:
-#	 hubot how (warm|cold) is it - current temperature
-#	 hubot it's warm - set the nest 1 degree Fahrenheit lower
-#	 hubot it's cold - set the nest 1 degree Fahrenheit higher
-#	 hubot nest status - current nest setting
+#   hubot how (warm|cold) is it - current temperature
+#   hubot it's warm - set the nest 1 degree Fahrenheit lower
+#   hubot it's cold - set the nest 1 degree Fahrenheit higher
+#   hubot nest status - current nest setting
 
 # https://github.com/kasima/nesting
 nest = require('nesting')
@@ -13,9 +13,9 @@ nest = require('nesting')
 # Be sure to set the following environment variables
 
 options =
-	login:		process.env.NEST_LOGIN
+	login:    process.env.NEST_LOGIN
 	password: process.env.NEST_PASSWORD
-	nest_id:	process.env.NEST_ID
+	nest_id:  process.env.NEST_ID
 
 changeTemperatureBy = (byF, msg) ->
 	nest.fetchStatus (data) ->
@@ -34,14 +34,14 @@ module.exports = (robot) ->
 				msg.send "It's currently " + nest.ctof(current_temp) + " degrees in here."
 
 	robot.respond /it's(.*) (hot|warm)/i, (msg) ->
-		msg.send("It's just me")
+		msg.send("I'll take care of it...")
 		nest.login options.login, options.password, (data) ->
-			changeTemperatureBy -5, msg
+			changeTemperatureBy -1, msg
 
 	robot.respond /it's(.*) cold/i, (msg) ->
-		msg.send("I'm on it...")
+		msg.send("I'll take care of it...")
 		nest.login options.login, options.password, (data) ->
-			changeTemperatureBy +3, msg
+			changeTemperatureBy 1, msg
 
 	robot.respond /nest status/i, (msg) ->
 		msg.send("Checking...")
