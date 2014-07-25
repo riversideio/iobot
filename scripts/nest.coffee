@@ -26,15 +26,13 @@ changeTemperatureBy = (byF, msg) ->
     nest.setTemperature options.nest_id, new_temp
 
 module.exports = (robot) ->
-  robot.respond /how (warm|cold) is it/i, (msg) ->
-    msg.send("Let me check on that...")
+  robot.respond /nest (temp|temperature)/i, (msg) ->
     nest.login options.login, options.password, (data) ->
       nest.fetchStatus (data) ->
         current_temp = data.shared[options.nest_id].current_temperature
         msg.send "It's currently " + nest.ctof(current_temp) + " degrees in here."
 
   robot.respond /it's(.*) (hot|warm)/i, (msg) ->
-    msg.send("It's just me")
     nest.login options.login, options.password, (data) ->
       changeTemperatureBy -5, msg
 
