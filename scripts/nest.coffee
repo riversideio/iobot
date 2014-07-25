@@ -19,7 +19,7 @@ options =
 
 changeTemperatureBy = (byF, msg) ->
   nest.fetchStatus (data) ->
-    byC = (5/9) * (byF - 32)
+    byC = (5/9) * byF
     current_temp = data.shared[options.nest_id].target_temperature
 	msg.send "The current temp is " + current_temp
     new_temp = current_temp + byCHEAD
