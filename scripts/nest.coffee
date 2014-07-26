@@ -29,7 +29,11 @@ changeTemperatureBy = (byF, msg) ->
 changeTemperatureTo = (toF, msg) ->
   nest.fetchStatus (data) ->
     toC = nest.ftoc(toF)
-		toC == 80 ? msg.send "Nest has entered away mode" : msg.send "Nest temperature has been set to " + nest.ctof(toC) + 'ºF'
+		if toC == 80
+			message = "Nest temperature has been set to " + nest.ctof(toC) + 'ºF'
+		else
+			message = "Nest has entered away mode"
+		msg.send message
     nest.setTemperature options.nest_id, toC
 
 
