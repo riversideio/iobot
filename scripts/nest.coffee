@@ -29,7 +29,7 @@ changeTemperatureBy = (byF, msg) ->
 changeTemperatureTo = (toF, msg) ->
   nest.fetchStatus (data) ->
     toC = nest.ftoc(toF)
-    msg.send "Nest temperature has been set to " + nest.ctof(toC) + 'ºF'
+		toC = 80 ? msg.send "Nest has entered away mode" : msg.send "Nest temperature has been set to " + nest.ctof(toC) + 'ºF'
     nest.setTemperature options.nest_id, toC
 
 
@@ -39,7 +39,7 @@ module.exports = (robot) ->
 		nest.login options.login, options.password, (data) ->
 			nest.fetchStatus (data) ->
 				current_temp = data.shared[options.nest_id].current_temperature
-				msg.send "Nest says it's " + nest.ctof(current_temp) + "ºF."
+				msg.send "Nest says it's " + nest.ctof(current_temp) + "ºF in the room."
 
 	# nest target temperature
 	robot.respond /nest (status|st)/i, (msg) ->
