@@ -5,14 +5,10 @@
 #	 Control your nest thermostat.
 #
 # Commands:
-	# hubot (c|curr|current|room) (t|temp|temperature|status)
-	# hubot (status|st)
-	# hubot (sleep|zzz|away|goodnight|good night|off|die)
-	# hubot (wake|wake up|wakeup|speak|up|rise|rise and shine)
-#
-#	https://github.com/m2mIO/2lemetry-hubot/blob/master/scripts/nest.coffee
-# https://github.com/kasima/nesting
-#
+	# hubot c/curr/current/room t/temp/temperature/status - Room temperature
+	# hubot status/st - Target temperature
+	# hubot sleep/zzz/away/goodnight/good night/off|die - Sleep
+	# hubot wake|wake up|wakeup|speak|up|rise|rise and shine Wake
 nest = require('nesting')
 
 # Be sure to set the following environment variables
