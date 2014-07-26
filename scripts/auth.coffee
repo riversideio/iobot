@@ -53,48 +53,62 @@ module.exports = (robot) ->
         if robot.auth.hasRole(msg.envelope.user, role)
           users.push(user)
       users
+    getUserByName: ( name ) ->
+      _user = null
+      for own key, user of robot.brain.data.users
+        if user.name is name
+          _user = user
+      _user
 
   robot.auth = new Auth
 
+  # These are mainly for dubugging purposes
   robot.respond /who am i\?*$/i, (msg) ->
     msg.reply 'you are ' + msg.message.user.name.toString() + ' to me at least.'
 
+  robot.respond /what do you know about me\?*$/i, ( msg ) ->
+    user = robot.auth.getUserByName( msg.message.user.name )
+    if user
+      msg.reply JSON.stringify( user, null, '\t' )
+    else
+      msg.reply 'Nothing your off the grid ;-)'
+
+  
   robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
-      user = robot.brain.userForName(name)
+      user = robot.auth.getUserByName( name )
       return msg.reply "#{name} does not exist" unless user?
       user.roles or= []
 
       if newRole in user.roles
         msg.reply "#{name} already has the '#{newRole}' role."
       else
-        if newRole is 'admin'
-          msg.reply "Sorry, the 'admin' role can only be defined in the HUBOT_AUTH_ADMIN env variable."
+        myRoles = msg.message.user.roles or []
+        if "admin" in myRoles
+          user.roles.push( newRole )
+          msg.reply "Ok, #{name} has the '#{newRole}' role."
         else
-          myRoles = msg.message.user.roles or []
-          if msg.message.user.name.toString() in admins
-            user.roles.push(newRole)
-            msg.reply "Ok, #{name} has the '#{newRole}' role."
+          msg.reply "I dont have to listen to you, your not admin"
 
   robot.respond /@?(.+) (doesn't have|does not have) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
-      user = robot.brain.userForName(name)
+      
+      user = robot.auth.getUserByName( name )
       return msg.reply "#{name} does not exist" unless user?
       user.roles or= []
 
-      if newRole is 'admin'
-        msg.reply "Sorry, the 'admin' role can only be removed from the HUBOT_AUTH_ADMIN env variable."
+      myRoles = msg.message.user.roles or []
+      if "admin" in myRoles
+        user.roles = (role for role in user.roles when role isnt newRole)
+        msg.reply "Ok, #{name} doesn't have the '#{newRole}' role."
       else
-        myRoles = msg.message.user.roles or []
-        if msg.message.user.id.toString() in admins
-          user.roles = (role for role in user.roles when role isnt newRole)
-          msg.reply "Ok, #{name} doesn't have the '#{newRole}' role."
+          msg.reply "I dont have to listen to you, your not admin"
 
   robot.respond /(what role does|what roles does) @?(.+) (have)\?*$/i, (msg) ->
     name = msg.match[2].trim()
