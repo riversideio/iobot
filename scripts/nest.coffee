@@ -29,12 +29,16 @@ changeTemperatureBy = (byF, msg) ->
 changeTemperatureTo = (toF, msg) ->
   nest.fetchStatus (data) ->
     toC = nest.ftoc(toF)
-    if toC == 80
-      message = "Nest temperature has been set to " + nest.ctof(toC) + 'ºF'
-    else
-      message = "Nest has entered away mode"
-    msg.send message
     nest.setTemperature options.nest_id, toC
+		msg.send "Nest temperature has been set to " + nest.ctof(toC) + 'ºF'
+
+
+goToSleep = (toF, msg) ->
+	nest.fetchStatus (data) ->
+		toC = nest.ftoc(toF)
+		nest.setTemperature options.nest_id, toC
+	  msg.send "Nest has entered away mode"
+
 
 
 module.exports = (robot) ->
@@ -60,7 +64,7 @@ module.exports = (robot) ->
   # sleep // dependent upon nest away temperature
   robot.respond /nest (sleep|zzz|away|goodnight|good night|off|die)/i, (msg) ->
     nest.login options.login, options.password, (data) ->
-      changeTemperatureTo 80, msg
+      goToSleep 80, msg
 
   # wake and cool to 75
   robot.respond /nest (wake|wake up|wakeup|speak|up|rise|rise and shine)/i, (msg) ->
