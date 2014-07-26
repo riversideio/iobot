@@ -35,7 +35,7 @@ changeTemperatureTo = (toF, msg) ->
 
 module.exports = (robot) ->
 	# current room temperature
-	robot.respond /nest c|curr|current|room t|temp|temperature|status/i, (msg) ->
+	robot.respond /nest c|curr|current|room t|temp|temperature/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			nest.fetchStatus (data) ->
 				current_temp = data.shared[options.nest_id].current_temperature
