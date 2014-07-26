@@ -13,9 +13,9 @@ nest = require('nesting')
 
 # Be sure to set the following environment variables
 options =
-	 login: process.env.nest_LOGIN
-	 password: process.env.nest_PASSWORD
-	 nest_id:	process.env.nest_ID
+	 login: process.env.NEST_LOGIN
+	 password: process.env.NEST_PASSWORD
+	 nest_id:	process.env.NEST_ID
 
 changeTemperatureBy = (byF, msg) ->
 	nest.fetchStatus (data) ->
