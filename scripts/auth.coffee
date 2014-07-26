@@ -71,11 +71,26 @@ module.exports = (robot) ->
     name = user.name
     storedUser = robot.auth.getUserByName( name )
 
-    if storedUser.id isnt user.id 
-      roles = robot.brain.data.users[ user.id ].roles;
-      robot.brain.data.users[ user.id ].roles = roles.concat( storedUser.roles )
-      delete robot.brain.data.users[ storedUser.id ];
-      msg.reply "Your all fixed up #{name}";
+    if storedUser and user and storedUser.id isnt user.id 
+      success = null
+      error = null
+      try
+        roles = robot.brain.data.users[ user.id ].roles or [];
+        robot.brain.data.users[ user.id ].roles = roles.concat( storedUser.roles or [] )
+        delete robot.brain.data.users[ storedUser.id ];
+        success = true
+      catch e
+        success = null
+        error = e
+
+      if success
+        msg.reply "Your all fixed up #{name}"
+      else
+        if error
+          msg.reply "I made a mess: " + e.message
+        else
+          msg.reply "Sorry wasnt able to fix that for you"
+
     else
       msg.reply "It does not seem that your having any issues"
 
@@ -111,7 +126,7 @@ module.exports = (robot) ->
     newRole = msg.match[3].trim().toLowerCase()
 
     unless name.toLowerCase() in ['', 'who', 'what', 'where', 'when', 'why']
-      
+
       user = robot.auth.getUserByName( name )
       return msg.reply "#{name} does not exist" unless user?
       user.roles or= []
