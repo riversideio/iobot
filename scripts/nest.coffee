@@ -44,10 +44,13 @@ goToSleep = (toF, msg) ->
 module.exports = (robot) ->
 	# current room temperature
 	robot.hear /nest (c|curr|current|room) (t|temp|temperature)/i, (msg) ->
-		nest.login options.login, options.password, (data) ->
-			nest.fetchStatus (data) ->
-				current_temp = data.shared[options.nest_id].current_temperature
-				msg.send "Nest says it's " + nest.ctof(current_temp) + "ºF in the room."
+		if 'nest' in msg.message.user.roles		
+			nest.login options.login, options.password, (data) ->
+				nest.fetchStatus (data) ->
+					current_temp = data.shared[options.nest_id].current_temperature
+					msg.send "Nest says it's " + nest.ctof(current_temp) + "ºF in the room."
+		else
+			msg.reply "Please consult an admin to get access to this"
 
 	# nest target temperature
 	robot.hear /nest (status|st)/i, (msg) ->
