@@ -5,10 +5,10 @@
 #	 Control your nest thermostat.
 #
 # Commands:
-	# (c|curr|current|room) (t|temp|temperature|status)
-	# (status|st)
-	# (sleep|zzz|away|goodnight|good night|off|die)
-	# (wake|wake up|wakeup|speak|up|rise|rise and shine)
+	# hubot (c|curr|current|room) (t|temp|temperature|status)
+	# hubot (status|st)
+	# hubot (sleep|zzz|away|goodnight|good night|off|die)
+	# hubot (wake|wake up|wakeup|speak|up|rise|rise and shine)
 #
 #	https://github.com/m2mIO/2lemetry-hubot/blob/master/scripts/nest.coffee
 # https://github.com/kasima/nesting
