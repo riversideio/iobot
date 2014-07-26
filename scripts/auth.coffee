@@ -66,6 +66,19 @@ module.exports = (robot) ->
   robot.respond /who am i\?*$/i, (msg) ->
     msg.reply 'you are ' + msg.message.user.name.toString() + ' to me at least.'
 
+  robot.respond /can you fix my roles\?$/i, ( msg ) ->
+    user = msg.message.user
+    name = user.name
+    storedUser = robot.auth.getUserByName( name )
+
+    if storedUser.id isnt user.id 
+      roles = robot.brain.data.users[ user.id ].roles;
+      robot.brain.data.users[ user.id ].roles = roles.concat( storedUser.roles )
+      delete robot.brain.data.users[ storedUser.id ];
+      msg.reply "Your all fixed up #{name}";
+    else
+      msg.reply "It does not seem that your having any issues"
+
   robot.respond /what do you know about me\?*$/i, ( msg ) ->
     user = robot.auth.getUserByName( msg.message.user.name )
     if user
