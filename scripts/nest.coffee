@@ -35,31 +35,31 @@ changeTemperatureTo = (toF, msg) ->
 
 module.exports = (robot) ->
 	# current room temperature
-	robot.respond /nest (c|curr|current|room) (t|temp|temperature|status)/i, (msg) ->
+	robot.respond /nest c|curr|current|room t|temp|temperature|status/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			nest.fetchStatus (data) ->
 				current_temp = data.shared[options.nest_id].current_temperature
 				msg.send "Nest says it's " + nest.ctof(current_temp) + "ºF."
 
 	# nest target temperature
-	robot.respond /nest (status|st)/i, (msg) ->
+	robot.respond /nest status|st/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			nest.fetchStatus (data) ->
 				current_target = data.shared[options.nest_id].target_temperature
 				msg.send "The nest is currently set to " + nest.ctof(current_target) + "ºF."
 
   # set temperature
-	robot.respond /nest (s|set) (\d{2}).*/i, (msg) ->
+	robot.respond /nest s|set (\d{2}).*/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			changeTemperatureTo msg.match[2], msg
 
   # sleep // dependent upon nest away temperature
-	robot.respond /nest (sleep|zzz|away|goodnight|good night|off|die)/i, (msg) ->
+	robot.respond /nest sleep|zzz|away|goodnight|good night|off|die/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			changeTemperatureTo 80, msg
 
   # wake and cool to 75
-	robot.respond /nest (wake|wake up|wakeup|speak|up|rise|rise and shine)/i, (msg) ->
+	robot.respond /nest wake|wake up|wakeup|speak|up|rise|rise and shine/i, (msg) ->
 		nest.login options.login, options.password, (data) ->
 			changeTemperatureTo 75, msg
 
