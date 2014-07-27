@@ -71,7 +71,7 @@ module.exports = (robot) ->
     name = user.name
     storedUser = robot.auth.getUserByName( name )
 
-    if storedUser and user and storedUser.id isnt user.id 
+    if storedUser and user and storedUser.id isnt user.id
       success = null
       error = null
       try
@@ -101,7 +101,7 @@ module.exports = (robot) ->
     else
       msg.reply 'Nothing your off the grid ;-)'
 
-  
+
   robot.respond /@?(.+) (has) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
     newRole = msg.match[3].trim().toLowerCase()
@@ -119,7 +119,7 @@ module.exports = (robot) ->
           user.roles.push( newRole )
           msg.reply "Ok, #{name} has the '#{newRole}' role."
         else
-          msg.reply "I dont have to listen to you, your not admin"
+          msg.reply "I dont have to listen to you, you're not admin"
 
   robot.respond /@?(.+) (doesn't have|does not have) (["'\w: -_]+) (role)/i, (msg) ->
     name    = msg.match[1].trim()
