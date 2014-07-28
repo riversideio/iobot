@@ -13,6 +13,10 @@
 #   hubot <user> doesn't have <role> role - Removes a role from a user
 #   hubot what role does <user> have - Find out what roles are assigned to a specific user
 #   hubot who has admin role - Find out who's an admin and can assign roles
+#   hubot who am I? - returns name referance that hubot has to you
+#   hubot what do you know about me? - returns the user object that is used to validate you
+#   hubot can you fix my roles? - hubot tried to fix duplicated data
+#
 #
 # Notes:
 #   * Call the method: robot.auth.hasRole(msg.envelope.user,'<role>')
