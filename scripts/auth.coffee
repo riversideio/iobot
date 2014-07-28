@@ -115,7 +115,7 @@ module.exports = (robot) ->
         msg.reply "#{name} already has the '#{newRole}' role."
       else
         myRoles = msg.message.user.roles or []
-        if "admin" in myRoles
+        if "admin" in myRoles or msg.message.user.name in admins
           user.roles.push( newRole )
           msg.reply "Ok, #{name} has the '#{newRole}' role."
         else
