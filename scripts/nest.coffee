@@ -4,6 +4,9 @@
 # Description:
 #	 Control your nest thermostat.
 #
+# How:
+# 	Once you have slackbot admin, give any user a role: hubot *username* has nest role
+#
 # Commands:
 	# hubot c/curr/current/room t/temp/temperature/status - Room temperature
 	# hubot status/st - Target temperature
@@ -41,7 +44,6 @@ goToSleep = (toF, msg) ->
 		msg.send "Nest has entered away mode"
 
 
-
 module.exports = (robot) ->
 	# current room temperature
 	robot.hear /nest (c|curr|current|room) (t|temp|temperature)/i, (msg) ->
@@ -59,27 +61,27 @@ module.exports = (robot) ->
 
 	# set temperature
 	robot.hear /nest (s|set) (\d{2}).*/i, (msg) ->
-		if 'nest' in msg.message.user.roles
+		# if 'nest' in msg.message.user.roles
 			nest.login options.login, options.password, (data) ->
 				changeTemperatureTo msg.match[2], msg
-		else
-				msg.reply "Please consult an admin to get access to Nest"
+		# else
+				# msg.reply "Please consult an admin to get access to Nest"
 
 	# sleep // dependent upon nest away temperature
 	robot.hear /nest (sleep|zzz|away|goodnight|good night|off|die)/i, (msg) ->
-		if 'nest' in msg.message.user.roles
+		# if 'nest' in msg.message.user.roles
 			nest.login options.login, options.password, (data) ->
 				goToSleep 80, msg
-		else
-					msg.reply "Please consult an admin to get access to Nest"
+		# else
+					# msg.reply "Please consult an admin to get access to Nest"
 
 	# wake and cool to 75
 	robot.hear /nest (wake|wake up|wakeup|speak|up|rise|rise and shine)/i, (msg) ->
-		if 'nest' in msg.message.user.roles
+		# if 'nest' in msg.message.user.roles
 			nest.login options.login, options.password, (data) ->
 				changeTemperatureTo 75, msg
-		else
-					msg.reply "Please consult an admin to get access to Nest"
+		# else
+					# msg.reply "Please consult an admin to get access to Nest"
 
 	robot.router.get "/nest/status", (req, res) ->
 		nest.login options.login, options.password, (data) ->
