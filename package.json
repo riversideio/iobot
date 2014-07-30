@@ -25,7 +25,7 @@
     "hubot-scripts": ">= 2.5.0 < 3.0.0",
     "soupselect": "^0.2.0",
     "htmlparser": "^1.7.7",
-    "hubot-slack": "^2.1.0",
+    "hubot-slack": "git+https://git@github.com/jacoblwe20/hubot-slack.git",
     "nesting": "^0.1.0",
     "request": "~2.39.0"
   },
