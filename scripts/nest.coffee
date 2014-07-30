@@ -61,27 +61,56 @@ module.exports = (robot) ->
 
 	# set temperature
 	robot.hear /nest (s|set) (\d{2}).*/i, (msg) ->
-		# if 'nest' in msg.message.user.roles
+		if 'nest' in msg.message.user.roles
 			nest.login options.login, options.password, (data) ->
 				changeTemperatureTo msg.match[2], msg
-		# else
-				# msg.reply "Please consult an admin to get access to Nest"
+		else
+			msg.reply "Please consult an admin to get access to Nest"
 
 	# sleep // dependent upon nest away temperature
 	robot.hear /nest (sleep|zzz|away|goodnight|good night|off|die)/i, (msg) ->
-		# if 'nest' in msg.message.user.roles
+		if 'nest' in msg.message.user.roles
 			nest.login options.login, options.password, (data) ->
 				goToSleep 80, msg
-		# else
-					# msg.reply "Please consult an admin to get access to Nest"
+		else
+			msg.reply "Please consult an admin to get access to Nest"
 
 	# wake and cool to 75
 	robot.hear /nest (wake|wake up|wakeup|speak|up|rise|rise and shine)/i, (msg) ->
-		# if 'nest' in msg.message.user.roles
+		if 'nest' in msg.message.user.roles
 			nest.login options.login, options.password, (data) ->
 				changeTemperatureTo 75, msg
-		# else
-					# msg.reply "Please consult an admin to get access to Nest"
+		else
+			msg.reply "Please consult an admin to get access to Nest"
+
+	# set temp based of user pref
+	robot.respond /i'm here set nest*$/i, (msg) ->
+		if 'nest' in msg.message.user.roles
+			if msg.message.user.tempPref
+				nest.login options.login, options.password, (data) ->
+					changeTemperatureTo user.tempPref, msg
+			else
+				msg.reply '#{msg.message.user} no preferance is set for you\n' +
+					'ask me to "set my nest preferance to <degrees>"'
+		else
+			msg.reply 'Sorry this is only available to users with nest role'
+
+
+	robot.respond /set me nest preferance to (\d{2})*/i, (msg) ->
+		if 'nest' in msg.message.user.roles
+			temp = parseInt msg.match[1];
+			if typeof temp is 'number' and isnt isNan temp
+				# store
+				robot.brain.users[msg.message.user.id].tempPref = parseInt msg.match[1];
+				msg.reply '#{msg.message.user.name} I set you preferance to ' +  temp + 'degrees'
+				# now set temp
+				nest.login options.login, options.password, (data) ->
+					changeTemperatureTo user.tempPref, msg
+			else
+				# bad type
+				msg.reply 'did not set you preferance to ' + msg.match[1] + ' try using a number'
+
+
 
 	robot.router.get "/nest/status", (req, res) ->
 		nest.login options.login, options.password, (data) ->
