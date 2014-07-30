@@ -12,6 +12,7 @@
 	# hubot status/st - Target temperature
 	# hubot sleep/zzz/away/goodnight/good night/off|die - Sleep
 	# hubot wake|wake up|wakeup|speak|up|rise|rise and shine - Wake
+	# hubot i'm here set nest - sets nest to your preferred temp
 nest = require('nesting')
 
 # Be sure to set the following environment variables
@@ -96,7 +97,7 @@ module.exports = (robot) ->
 			msg.reply 'Sorry this is only available to users with nest role'
 
 
-	robot.respond /set me nest preferance to (\d{2})*/i, (msg) ->
+	robot.respond /set my nest preferance to (\d{2})*/i, (msg) ->
 		if 'nest' in msg.message.user.roles
 			temp = parseInt msg.match[1];
 			if typeof temp is 'number' and isnt isNan temp
