@@ -96,7 +96,7 @@ module.exports = (robot) ->
 		else
 			msg.reply 'Sorry this is only available to users with nest role'
 
-	robot.respond /set my nest preferwnce to ([0-9]+)*/i, (msg) ->
+	robot.respond /set my nest preference to ([0-9]+)*/i, (msg) ->
 		if 'nest' in msg.message.user.roles
 			temp = parseInt msg.match[ 1 ], 0;
 			if typeof temp is 'number' 
