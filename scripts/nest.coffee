@@ -89,7 +89,7 @@ module.exports = (robot) ->
 		if 'nest' in msg.message.user.roles
 			if msg.message.user.tempPref
 				nest.login options.login, options.password, (data) ->
-					changeTemperatureTo user.tempPref, msg
+					changeTemperatureTo msg.message.user.tempPref, msg
 			else
 				msg.reply 'no preference is set for you\n' +
 					'ask me to "set my nest preference to <degrees>"'
