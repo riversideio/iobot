@@ -8,11 +8,13 @@
 # 	Once you have slackbot admin, give any user a role: hubot *username* has nest role
 #
 # Commands:
-	# hubot c/curr/current/room t/temp/temperature/status - Room temperature
-	# hubot status/st - Target temperature
-	# hubot sleep/zzz/away/goodnight/good night/off|die - Sleep
-	# hubot wake|wake up|wakeup|speak|up|rise|rise and shine - Wake
-	# hubot i'm here set nest - sets nest to your preferred temp
+# 	hubot c/curr/current/room t/temp/temperature/status - Room temperature
+# 	hubot status/st - Target temperature
+# 	hubot sleep/zzz/away/goodnight/good night/off|die - Sleep
+# 	hubot wake|wake up|wakeup|speak|up|rise|rise and shine - Wake
+# 	hubot i'm here set nest - sets nest to your preferred temp
+#
+
 nest = require('nesting')
 
 # Be sure to set the following environment variables
