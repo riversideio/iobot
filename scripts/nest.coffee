@@ -97,12 +97,13 @@ module.exports = (robot) ->
 			msg.reply 'Sorry this is only available to users with nest role'
 
 
-	robot.respond /set my nest preferance to (\d{2})*/i, (msg) ->
+	robot.respond /set my nest preferance to ([0-9]+)*/i, (msg) ->
 		if 'nest' in msg.message.user.roles
-			temp = parseInt msg.match[1];
-			if typeof temp is 'number' and isnt isNan temp
+			temp = parseInt msg.match[ 1 ], 0;
+			if typeof temp is 'number' 
+				msg.reply 'hperkfpeok'
 				# store
-				robot.brain.users[msg.message.user.id].tempPref = parseInt msg.match[1];
+				robot.brain.data.users[msg.message.user.id].tempPref = temp;
 				msg.reply '#{msg.message.user.name} I set you preferance to ' +  temp + 'degrees'
 				# now set temp
 				nest.login options.login, options.password, (data) ->
@@ -110,7 +111,6 @@ module.exports = (robot) ->
 			else
 				# bad type
 				msg.reply 'did not set you preferance to ' + msg.match[1] + ' try using a number'
-
 
 
 	robot.router.get "/nest/status", (req, res) ->
