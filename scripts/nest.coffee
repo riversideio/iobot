@@ -91,25 +91,25 @@ module.exports = (robot) ->
 				nest.login options.login, options.password, (data) ->
 					changeTemperatureTo user.tempPref, msg
 			else
-				msg.reply '#{msg.message.user} no preferance is set for you\n' +
-					'ask me to "set my nest preferance to <degrees>"'
+				msg.reply '#{msg.message.user} no preference is set for you\n' +
+					'ask me to "set my nest preference to <degrees>"'
 		else
 			msg.reply 'Sorry this is only available to users with nest role'
 
 
-	robot.respond /set my nest preferance to (\d{2})*/i, (msg) ->
+	robot.respond /set my nest preference to (\d{2})*/i, (msg) ->
 		if 'nest' in msg.message.user.roles
 			temp = parseInt msg.match[1];
 			if typeof temp is 'number' and isnt isNan temp
 				# store
 				robot.brain.users[msg.message.user.id].tempPref = parseInt msg.match[1];
-				msg.reply '#{msg.message.user.name} I set you preferance to ' +  temp + 'degrees'
+				msg.reply '#{msg.message.user.name} I set you preference to ' +  temp + 'degrees'
 				# now set temp
 				nest.login options.login, options.password, (data) ->
 					changeTemperatureTo user.tempPref, msg
 			else
 				# bad type
-				msg.reply 'did not set you preferance to ' + msg.match[1] + ' try using a number'
+				msg.reply 'did not set you preference to ' + msg.match[1] + ' try using a number'
 
 
 
