@@ -13,7 +13,6 @@
 # 	hubot sleep/zzz/away/goodnight/good night/off|die - Sleep
 # 	hubot wake|wake up|wakeup|speak|up|rise|rise and shine - Wake
 # 	hubot i'm here set nest - sets nest to your preferred temp
-#
 
 nest = require('nesting')
 
@@ -101,7 +100,7 @@ module.exports = (robot) ->
 	robot.respond /set my nest preference to ([0-9]+)*/i, (msg) ->
 		if 'nest' in msg.message.user.roles
 			temp = parseInt msg.match[ 1 ], 0;
-			if typeof temp is 'number' 
+			if typeof temp is 'number'
 				# store
 				robot.brain.data.users[msg.message.user.id].tempPref = temp;
 				msg.reply 'I set you preference to ' +  temp + 'degrees'

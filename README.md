@@ -17,10 +17,10 @@ iobot is on a heroku server. Ask someone for permission if you don't have it.
 ```
 Roles
 =====
-Checking for a certail role is easy!
+Checking for a certain role is easy!
 We can get the user's role before executing any code by checking inside the ***msg*** object
 ```
-  robot.hear /nest (s|set) (\d{2}).*/i, (msg) ->
+  robot.listen /nest (s|set) (\d{2}).*/i, (msg) ->
     if 'nest' in msg.message.user.roles
       // change nest temperature
     else
