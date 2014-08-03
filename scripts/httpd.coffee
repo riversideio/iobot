@@ -42,5 +42,5 @@ module.exports = (robot) ->
       res.end body
 
   robot.router.post "/hubot/echo", (req, res) ->
-    robot.messageRoom '*', req.body.text
+    robot.messageRoom '#general', req.body.text
     res.end 'sent'
