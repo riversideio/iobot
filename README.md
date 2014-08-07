@@ -20,7 +20,7 @@ Roles
 Checking for a certain role is easy!
 We can get the user's role before executing any code by checking inside the ***msg*** object
 ```
-  robot.listen /nest (s|set) (\d{2}).*/i, (msg) ->
+  robot.respond /nest (s|set) (\d{2}).*/i, (msg) ->
     if 'nest' in msg.message.user.roles
       // change nest temperature
     else
