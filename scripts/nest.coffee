@@ -92,7 +92,7 @@ module.exports = (robot) ->
 				nest.login options.login, options.password, (data) ->
 					changeTemperatureTo msg.message.user.tempPref, msg
 			else
-				msg.reply 'no preference is set for you\n' +
+				msg.reply 'no temperature preference is set for you\n' +
 					'ask me to "set my nest preference to <degrees>"'
 		else
 			msg.reply 'Sorry this is only available to users with nest role'
@@ -103,13 +103,13 @@ module.exports = (robot) ->
 			if typeof temp is 'number'
 				# store
 				robot.brain.data.users[msg.message.user.id].tempPref = temp;
-				msg.reply 'I set you preference to ' +  temp + 'degrees'
+				msg.reply 'I\'ve set your temperature preference to ' +  temp + 'degrees'
 				# now set temp
 				nest.login options.login, options.password, (data) ->
 					changeTemperatureTo user.tempPref, msg
 			else
 				# bad type
-				msg.reply 'did not set you preference to ' + msg.match[1] + ' try using a number'
+				msg.reply 'Unable to set your temperature preference to ' + msg.match[1] + '. Try using a number'
 
 
 	robot.router.get "/nest/status", (req, res) ->
